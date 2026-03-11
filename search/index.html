@@ -197,9 +197,13 @@ stroke-linecap="round" stroke-linejoin="round">
             function filterPosts(query) {
                 const q = query.toLowerCase().trim();
                 if (!q) return [];
+                const qYear = q.match(/^(\d{4})$/);
                 return posts.filter(post => 
                     post.headline.toLowerCase().includes(q) ||
-                    (post.teaser && post.teaser.toLowerCase().includes(q))
+                    (post.teaser && post.teaser.toLowerCase().includes(q)) ||
+                    (post.content && post.content.toLowerCase().includes(q)) ||
+                    post.date.toLowerCase().includes(q) ||
+                    (qYear && post.year === qYear[1])
                 );
             }
 
