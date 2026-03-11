@@ -30,6 +30,7 @@ html {
     line-height: 1.6;
     color: var(--text-primary);
     background-color: var(--bg-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -130,6 +131,12 @@ button {
     padding: 12px;
 }
 
+@media (min-width: 641px) {
+    #menu-items {
+        display: flex !important;
+    }
+}
+
 @media (max-width: 640px) {
     #menu-btn {
         display: block;
@@ -164,6 +171,7 @@ button {
     position: relative;
     width: 48px;
     height: 48px;
+    transition: background-color 0.3s ease;
 }
 
 @media (max-width: 640px) {
@@ -178,7 +186,7 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all 0.3s;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .sun-icon {
@@ -593,4 +601,62 @@ footer {
 
 .post-header h1 {
     margin-bottom: 0.5em;
+}
+
+.page-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.page-content h1 {
+    margin-bottom: 1.5rem;
+}
+
+.page-content p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.search-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.search-page h1 {
+    margin-bottom: 1.5rem;
+}
+
+.search-form {
+    margin-bottom: 2rem;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-form input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+#search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#search-empty {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 2rem;
 }
