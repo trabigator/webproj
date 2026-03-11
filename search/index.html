@@ -142,8 +142,9 @@
                 }
                 emptyMessage.classList.add('hidden');
                 
-                const isPostsDir = window.location.pathname.includes('/posts/');
-                const postBase = isPostsDir ? '../post.html' : 'post.html';
+                const pathname = window.location.pathname;
+                const isSubDir = pathname.startsWith('/') && pathname.split('/').filter(Boolean).length > 1;
+                const postBase = isSubDir ? '../post.html' : 'post.html';
 
                 resultsContainer.innerHTML = posts.map(post => `
                     <li>

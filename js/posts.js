@@ -2,7 +2,7 @@ const PostLoader = {
   async fetchPosts() {
     try {
       const pathname = window.location.pathname;
-      const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
       const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
       const manifestPath = isPostsPage ? 'manifest.json' : (isSearchOrAbout ? '../posts/manifest.json' : 'posts/manifest.json');
       
@@ -33,7 +33,7 @@ const PostLoader = {
   async fetchPost(path) {
     try {
       const pathname = window.location.pathname;
-      const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
       const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
       const fullPath = isPostsPage ? path : (isSearchOrAbout ? `../${path}` : `posts/${path}`);
       
@@ -88,9 +88,9 @@ const PostLoader = {
     }
 
     const pathname = window.location.pathname;
-    const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
-    const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-    const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
+      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
+      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+      const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
 
       container.innerHTML = posts.map(post => `
         <li>
@@ -123,9 +123,9 @@ const PostLoader = {
     }
 
     const pathname = window.location.pathname;
-    const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
-    const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-    const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
+      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
+      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+      const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
 
     const grouped = this.groupPostsByYearMonth(posts);
     
