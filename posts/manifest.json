@@ -1,7 +1,12 @@
 [
   {
-    "slug": "openclaw",
+    "slug": "2026-02-01",
     "year": "2026",
-    "path": "posts/2026/openclaw.md"
+    "path": "posts/2026/2026-02-01.md"
+  },
+  {
+    "slug": "2026-01-01",
+    "year": "2026",
+    "path": "posts/2026/2026-01-01.md"
   }
 ]
