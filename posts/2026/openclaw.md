@@ -1,20 +1,20 @@
 ---
 headline: "OpenClaw, OpenAI and the future"
-date: "2026-02-15"
-datetime: "2026-02-15T10:30:00Z"
-readTime: "3 min read"
-teaser: "I'm joining OpenAI to work on bringing agents to everyone. OpenClaw will move to a foundation and stay open and independent."
+date: "2026-01-01"
+datetime: "2026-01-01T10:30:00Z"
+readTime: "1 min read"
+teaser: "This is a teaser text. Lets see how long the post needs to update on gh pages"
 ---
 
-# OpenClaw, OpenAI and the future
+# HEADLINE for this post
 
-I'm joining **OpenAI** to work on bringing agents to everyone. OpenClaw will move to a foundation and stay open and independent.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 
-## Why this matters
+## Stet clita kasd gubergren, no sea takimata
 
-The landscape of *software development* is changing rapidly. What used to take weeks now takes hours.
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
-> "The future of coding is not about writing code, it's about directing intelligence." - Peter Steinberger
+> "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." - Author
 
 ### Code example
 
@@ -22,7 +22,7 @@ Here's how you might use the new agent API:
 
 ```javascript
 const agent = await Agent.create({
-  model: 'o4-mini',
+  model: 'LLM',
   task: 'build a REST API',
   context: {
     framework: 'express',
@@ -39,4 +39,4 @@ await agent.execute();
 
 ---
 
-Join us on this journey. The best is yet to come.
+Thanks for feedback.
