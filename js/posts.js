@@ -163,7 +163,7 @@ const PostLoader = {
       
       for (const monthData of months) {
         html += `<div class="month-group">
-          <h3 class="month-header">${monthData.monthName} ${monthData.posts.length}</h3>
+          <h3 class="month-header">${monthData.monthName} <span class="month-count">${monthData.posts.length}</span></h3>
           <ul class="month-posts">`;
         
         for (const post of monthData.posts) {
