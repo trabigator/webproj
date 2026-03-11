@@ -1,7 +1,7 @@
 const PostLoader = {
   async fetchPosts() {
     try {
-      const response = await fetch('/posts/manifest.json');
+      const response = await fetch('posts/manifest.json');
       if (!response.ok) {
         console.error('Failed to load manifest.json');
         return [];
@@ -74,10 +74,10 @@ const PostLoader = {
       return;
     }
 
-    container.innerHTML = posts.map(post => `
-      <li>
-        <div class="post-item">
-          <a href="${post.path.replace('.md', '')}" class="post-link">
+      container.innerHTML = posts.map(post => `
+        <li>
+          <div class="post-item">
+            <a href="${post.path.replace('.md', '').replace(/^\//, '')}" class="post-link">
             <h3>${post.headline}</h3>
           </a>
           <div class="post-meta">
@@ -106,10 +106,11 @@ const PostLoader = {
 
   async loadPostPage() {
     const path = window.location.pathname;
-    const match = path.match(/^\/posts\/(\d{4})\/([^/]+)$/);
+    // Match /webproj/posts/2026/openclaw or /posts/2026/openclaw
+    const match = path.match(/^(?:\/webproj)?\/posts\/(\d{4})\/([^/]+)$/);
     if (!match) return null;
 
-    const post = await this.fetchPost(`/posts/${match[1]}/${match[2]}.md`);
+    const post = await this.fetchPost(`posts/${match[1]}/${match[2]}.md`);
     if (!post) return null;
 
     document.title = post.headline;
