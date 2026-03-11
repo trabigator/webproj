@@ -153,9 +153,10 @@ const PostLoader = {
     const postBase = isSubDir ? '../post.html' : 'post.html';
 
     const grouped = this.groupPostsByYearMonth(posts);
+    const sortedYears = Object.entries(grouped).sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
     
     let html = '';
-    for (const [year, months] of Object.entries(grouped)) {
+    for (const [year, months] of sortedYears) {
       const yearCount = months.reduce((sum, m) => sum + m.posts.length, 0);
       html += `<div class="year-group">
         <h2 class="year-header">${year} <span class="year-count">${yearCount}</span></h2>`;
