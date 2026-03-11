@@ -2,8 +2,9 @@ const PostLoader = {
   async fetchPosts() {
     try {
       const pathname = window.location.pathname;
-      const isPostsDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
-      const manifestPath = isPostsDir ? '../posts/manifest.json' : 'posts/manifest.json';
+      const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+      const manifestPath = isPostsPage ? 'manifest.json' : (isSearchOrAbout ? '../posts/manifest.json' : 'posts/manifest.json');
       
       const response = await fetch(manifestPath);
       if (!response.ok) {
@@ -32,8 +33,9 @@ const PostLoader = {
   async fetchPost(path) {
     try {
       const pathname = window.location.pathname;
-      const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
-      const fullPath = isSubDir ? `../${path}` : path;
+      const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+      const fullPath = isPostsPage ? path : (isSearchOrAbout ? `../${path}` : `posts/${path}`);
       
       const response = await fetch(fullPath);
       if (!response.ok) return null;
@@ -86,8 +88,9 @@ const PostLoader = {
     }
 
     const pathname = window.location.pathname;
-    const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
-    const postBase = isSubDir ? '../post.html' : 'post.html';
+    const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+    const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+    const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
 
       container.innerHTML = posts.map(post => `
         <li>
@@ -120,8 +123,9 @@ const PostLoader = {
     }
 
     const pathname = window.location.pathname;
-    const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
-    const postBase = isSubDir ? '../post.html' : 'post.html';
+    const isPostsPage = pathname === '/posts/' || pathname === '/posts' || pathname.endsWith('/posts/index.html');
+    const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
+    const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
 
     const grouped = this.groupPostsByYearMonth(posts);
     
