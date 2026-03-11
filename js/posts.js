@@ -1,7 +1,11 @@
 const PostLoader = {
   async fetchPosts() {
     try {
-      const response = await fetch('posts/manifest.json');
+      // Determine base path - posts/index.html needs different path than root pages
+      const isPostsDir = window.location.pathname.includes('/posts/');
+      const manifestPath = isPostsDir ? 'manifest.json' : 'posts/manifest.json';
+      
+      const response = await fetch(manifestPath);
       if (!response.ok) {
         console.error('Failed to load manifest.json');
         return [];
@@ -11,7 +15,10 @@ const PostLoader = {
 
       for (const file of files) {
         const post = await this.fetchPost(file.path);
-        if (post) posts.push(post);
+        if (post) {
+          post.year = file.year;
+          posts.push(post);
+        }
       }
 
       posts.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -74,10 +81,14 @@ const PostLoader = {
       return;
     }
 
+    // Determine base path - posts/index.html needs ../ prefix
+    const isPostsDir = window.location.pathname.includes('/posts/');
+    const postBase = isPostsDir ? '../post.html' : 'post.html';
+
       container.innerHTML = posts.map(post => `
         <li>
           <div class="post-item">
-            <a href="${post.path.replace('.md', '').replace(/^\//, '')}" class="post-link">
+            <a href="${postBase}?year=${post.year}&slug=${post.slug}" class="post-link">
             <h3>${post.headline}</h3>
           </a>
           <div class="post-meta">
@@ -105,12 +116,13 @@ const PostLoader = {
   },
 
   async loadPostPage() {
-    const path = window.location.pathname;
-    // Match /webproj/posts/2026/openclaw or /posts/2026/openclaw
-    const match = path.match(/^(?:\/webproj)?\/posts\/(\d{4})\/([^/]+)$/);
-    if (!match) return null;
+    const params = new URLSearchParams(window.location.search);
+    const year = params.get('year');
+    const slug = params.get('slug');
+    
+    if (!year || !slug) return null;
 
-    const post = await this.fetchPost(`posts/${match[1]}/${match[2]}.md`);
+    const post = await this.fetchPost(`posts/${year}/${slug}.md`);
     if (!post) return null;
 
     document.title = post.headline;

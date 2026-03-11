@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading... | Markus Dröws</title>
-    <meta name="description" content="">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>Posts | Markus Dröws</title>
+    <meta name="description" content="All blog posts">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <style>
         h1, h2 { font-family: 'Fira Code', monospace; }
         body, h3, h4, h5, h6, p, a, li { font-family: 'Nunito', sans-serif; }
@@ -21,7 +21,7 @@
         <a id="skip-to-content" href="#main-content">Skip to content</a>
         <div id="nav-container">
             <div id="top-nav-wrap">
-                <a href="." class="site-title">Markus Dröws</a>
+                <a href="../" class="site-title">Markus Dröws</a>
                 <nav id="nav-menu">
                     <button id="menu-btn" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items">
                         <svg class="icon" id="menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -35,10 +35,10 @@
                         </svg>
                     </button>
                     <ul id="menu-items" class="hidden">
-                        <li><a href="posts/">Posts</a></li>
-                        <li><a href="about/">About</a></li>
+                        <li><a href="../posts/">Posts</a></li>
+                        <li><a href="../about/">About</a></li>
                         <li>
-                            <a href="search/" class="icon-btn" aria-label="search" title="Search">
+                            <a href="../search/" class="icon-btn" aria-label="search" title="Search">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8"></circle>
                                     <path d="M21 21l-6 -6"></path>
@@ -71,28 +71,15 @@
     </header>
 
     <main id="main-content">
-        <article id="post-content">
-            <header class="post-header">
-                <h1 id="post-headline"></h1>
-                <div class="post-meta">
-                    <span class="date">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="7" width="16" height="14" rx="2"></rect>
-                            <path d="M16 3v4"></path>
-                            <path d="M8 3v4"></path>
-                            <path d="M4 11h16"></path>
-                        </svg>
-                        <time id="post-date"></time>
-                    </span>
-                    <span id="post-read-time" class="read-time"></span>
-                </div>
-            </header>
-            <div id="post-body" class="markdown-content"></div>
-        </article>
+        <section id="all-posts">
+            <h1>All Posts</h1>
+            <ul>
+            </ul>
+        </section>
         <div class="divider"></div>
         <div class="all-posts-link">
-            <a href="posts/">
-                All Posts
+            <a href="../">
+                Back to Home
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14"></path>
                     <path d="M13 18l6 -6"></path>
@@ -144,18 +131,14 @@
         </div>
     </footer>
 
-    <script src="js/posts.js"></script>
-    <script src="script.js"></script>
+    <script src="../js/posts.js"></script>
+    <script src="../script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const post = await PostLoader.loadPostPage();
-            if (post) {
-                document.getElementById('post-headline').textContent = post.headline;
-                document.getElementById('post-date').textContent = PostLoader.formatDate(post.date);
-                document.getElementById('post-read-time').textContent = '- ' + post.readTime;
-                document.getElementById('post-body').innerHTML = post.content;
-            } else {
-                document.getElementById('post-content').innerHTML = '<p>Post not found.</p>';
+            const postsContainer = document.querySelector('#all-posts ul');
+            if (postsContainer) {
+                const posts = await PostLoader.fetchPosts();
+                PostLoader.renderPostList(posts, postsContainer);
             }
         });
     </script>
