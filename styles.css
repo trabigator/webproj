@@ -1,3 +1,7 @@
+@view-transition {
+  navigation: auto;
+}
+
 :root {
     --bg-primary: #ffffff;
     --bg-secondary: #f9fafb;
@@ -604,7 +608,7 @@ footer {
 }
 
 .page-content {
-    max-width: 720px;
+    max-width: 960px;
     margin: 0 auto;
     padding: 2rem 1rem;
 }
@@ -659,4 +663,86 @@ footer {
     color: var(--text-secondary);
     text-align: center;
     padding: 2rem;
+}
+
+#all-posts {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+#all-posts h1 {
+    margin-bottom: 2rem;
+}
+
+#all-posts ul {
+    list-style: none;
+    padding: 0;
+}
+
+.year-group {
+    margin-bottom: 2.5rem;
+}
+
+.year-header {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.year-count {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: normal;
+}
+
+.month-group {
+    margin-bottom: 1.5rem;
+}
+
+.month-header {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+.month-posts {
+    list-style: none;
+    padding: 0;
+}
+
+.month-posts li {
+    margin-bottom: 1.5rem;
+}
+
+.month-posts .post-link h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    transition: color 0.2s;
+}
+
+.month-posts .post-link:hover h3 {
+    color: var(--accent);
+}
+
+.month-posts .post-meta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.month-posts .post-meta .read-time {
+    margin-left: 0.5rem;
+}
+
+.month-posts p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
 }

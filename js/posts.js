@@ -1,9 +1,9 @@
 const PostLoader = {
   async fetchPosts() {
     try {
-      // Determine base path - posts/index.html needs different path than root pages
-      const isPostsDir = window.location.pathname.includes('/posts/');
-      const manifestPath = isPostsDir ? 'manifest.json' : 'posts/manifest.json';
+      const pathname = window.location.pathname;
+      const isPostsDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
+      const manifestPath = isPostsDir ? '../posts/manifest.json' : 'posts/manifest.json';
       
       const response = await fetch(manifestPath);
       if (!response.ok) {
@@ -31,8 +31,9 @@ const PostLoader = {
 
   async fetchPost(path) {
     try {
-      const isPostsDir = window.location.pathname.includes('/posts/');
-      const fullPath = isPostsDir ? path : `posts/${path}`;
+      const pathname = window.location.pathname;
+      const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
+      const fullPath = isSubDir ? `../${path}` : path;
       
       const response = await fetch(fullPath);
       if (!response.ok) return null;
@@ -84,9 +85,9 @@ const PostLoader = {
       return;
     }
 
-    // Determine base path - posts/index.html needs ../ prefix
-    const isPostsDir = window.location.pathname.includes('/posts/');
-    const postBase = isPostsDir ? '../post.html' : 'post.html';
+    const pathname = window.location.pathname;
+    const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
+    const postBase = isSubDir ? '../post.html' : 'post.html';
 
       container.innerHTML = posts.map(post => `
         <li>
@@ -110,6 +111,82 @@ const PostLoader = {
         </div>
       </li>
     `).join('');
+  },
+
+  renderGroupedPosts(posts, container) {
+    if (!posts.length) {
+      container.innerHTML = '<p>No posts yet.</p>';
+      return;
+    }
+
+    const pathname = window.location.pathname;
+    const isSubDir = pathname.includes('/posts/') || pathname.includes('/search/') || pathname.includes('/about/');
+    const postBase = isSubDir ? '../post.html' : 'post.html';
+
+    const grouped = this.groupPostsByYearMonth(posts);
+    
+    let html = '';
+    for (const [year, months] of Object.entries(grouped)) {
+      const yearCount = months.reduce((sum, m) => sum + m.posts.length, 0);
+      html += `<div class="year-group">
+        <h2 class="year-header">${year} <span class="year-count">${yearCount}</span></h2>`;
+      
+      for (const monthData of months) {
+        html += `<div class="month-group">
+          <h3 class="month-header">${monthData.monthName} ${monthData.posts.length}</h3>
+          <ul class="month-posts">`;
+        
+        for (const post of monthData.posts) {
+          html += `<li>
+            <a href="${postBase}?year=${post.year}&slug=${post.slug}" class="post-link">
+              <h3>${post.headline}</h3>
+            </a>
+            <div class="post-meta">
+              <span class="date">${this.formatDate(post.date)}</span>
+              <span class="read-time">- ${post.readTime}</span>
+            </div>
+            ${post.teaser ? `<p>${post.teaser}</p>` : ''}
+          </li>`;
+        }
+        
+        html += `</ul>
+        </div>`;
+      }
+      
+      html += `</div>`;
+    }
+
+    container.innerHTML = html;
+  },
+
+  groupPostsByYearMonth(posts) {
+    const groups = {};
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                        'July', 'August', 'September', 'October', 'November', 'December'];
+
+    for (const post of posts) {
+      const date = new Date(post.date);
+      const year = date.getFullYear().toString();
+      const monthIndex = date.getMonth();
+      
+      if (!groups[year]) {
+        groups[year] = [];
+      }
+      
+      let monthGroup = groups[year].find(m => m.monthIndex === monthIndex);
+      if (!monthGroup) {
+        monthGroup = { monthIndex, monthName: monthNames[monthIndex], posts: [] };
+        groups[year].push(monthGroup);
+      }
+      
+      monthGroup.posts.push(post);
+    }
+
+    for (const year of Object.keys(groups)) {
+      groups[year].sort((a, b) => b.monthIndex - a.monthIndex);
+    }
+
+    return groups;
   },
 
   formatDate(dateStr) {

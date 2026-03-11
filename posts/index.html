@@ -138,7 +138,7 @@
             const postsContainer = document.querySelector('#all-posts ul');
             if (postsContainer) {
                 const posts = await PostLoader.fetchPosts();
-                PostLoader.renderPostList(posts, postsContainer);
+                PostLoader.renderGroupedPosts(posts, postsContainer);
             }
         });
     </script>
