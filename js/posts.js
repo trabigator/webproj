@@ -59,7 +59,7 @@ const PostLoader = {
       if (isPostsPage) {
         fullPath = path;
       } else if (isSubDir) {
-        fullPath = `../${path}`;
+        fullPath = `../posts/${path}`;
       } else {
         fullPath = `posts/${path}`;
       }
