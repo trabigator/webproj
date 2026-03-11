@@ -20,7 +20,7 @@ function generateManifest() {
       posts.push({
         slug,
         year,
-        path: `posts/${year}/${file}`
+        path: `${year}/${file}`
       });
     }
   }
