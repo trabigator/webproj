@@ -1,10 +1,29 @@
 const PostLoader = {
+  getPathInfo() {
+    const pathname = window.location.pathname;
+    const pathParts = pathname.split('/').filter(Boolean);
+    
+    const isRoot = pathParts.length === 0 || (pathParts.length === 1 && !pathname.includes('/posts') && !pathname.includes('/search') && !pathname.includes('/about'));
+    const isPostsPage = pathParts.includes('posts') && pathname.endsWith('index.html');
+    const isSearchPage = pathParts.includes('search') && pathname.endsWith('index.html');
+    const isAboutPage = pathParts.includes('about') && pathname.endsWith('index.html');
+    
+    return { isRoot, isPostsPage, isSearchPage, isAboutPage, pathParts };
+  },
+
   async fetchPosts() {
     try {
-      const pathname = window.location.pathname;
-      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
-      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-      const manifestPath = isPostsPage ? 'manifest.json' : (isSearchOrAbout ? '../posts/manifest.json' : 'posts/manifest.json');
+      const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
+      const isSubDir = isSearchPage || isAboutPage;
+      
+      let manifestPath;
+      if (isPostsPage) {
+        manifestPath = 'manifest.json';
+      } else if (isSubDir) {
+        manifestPath = '../posts/manifest.json';
+      } else {
+        manifestPath = 'posts/manifest.json';
+      }
       
       const response = await fetch(manifestPath);
       if (!response.ok) {
@@ -32,10 +51,17 @@ const PostLoader = {
 
   async fetchPost(path) {
     try {
-      const pathname = window.location.pathname;
-      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
-      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-      const fullPath = isPostsPage ? path : (isSearchOrAbout ? `../${path}` : `posts/${path}`);
+      const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
+      const isSubDir = isSearchPage || isAboutPage;
+      
+      let fullPath;
+      if (isPostsPage) {
+        fullPath = path;
+      } else if (isSubDir) {
+        fullPath = `../${path}`;
+      } else {
+        fullPath = `posts/${path}`;
+      }
       
       const response = await fetch(fullPath);
       if (!response.ok) return null;
@@ -87,10 +113,9 @@ const PostLoader = {
       return;
     }
 
-    const pathname = window.location.pathname;
-      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
-      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-      const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
+    const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
+    const isSubDir = isPostsPage || isSearchPage || isAboutPage;
+    const postBase = isSubDir ? '../post.html' : 'post.html';
 
       container.innerHTML = posts.map(post => `
         <li>
@@ -122,10 +147,9 @@ const PostLoader = {
       return;
     }
 
-    const pathname = window.location.pathname;
-      const isPostsPage = pathname.startsWith('/posts') && (pathname === '/posts' || pathname === '/posts/' || pathname.endsWith('/posts/index.html'));
-      const isSearchOrAbout = pathname.includes('/search/') || pathname.includes('/about/');
-      const postBase = isPostsPage || isSearchOrAbout ? '../post.html' : 'post.html';
+    const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
+    const isSubDir = isPostsPage || isSearchPage || isAboutPage;
+    const postBase = isSubDir ? '../post.html' : 'post.html';
 
     const grouped = this.groupPostsByYearMonth(posts);
     
