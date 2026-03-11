@@ -31,7 +31,10 @@ const PostLoader = {
 
   async fetchPost(path) {
     try {
-      const response = await fetch(path);
+      const isPostsDir = window.location.pathname.includes('/posts/');
+      const fullPath = isPostsDir ? path : `posts/${path}`;
+      
+      const response = await fetch(fullPath);
       if (!response.ok) return null;
 
       const content = await response.text();
@@ -122,7 +125,7 @@ const PostLoader = {
     
     if (!year || !slug) return null;
 
-    const post = await this.fetchPost(`posts/${year}/${slug}.md`);
+    const post = await this.fetchPost(`${year}/${slug}.md`);
     if (!post) return null;
 
     document.title = post.headline;
