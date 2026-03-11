@@ -1,5 +1,5 @@
 ---
-headline: "OpenClaw, OpenAI and the future"
+headline: "THIS IS A HEADLINE for this post"
 date: "2026-01-01"
 datetime: "2026-01-01T10:30:00Z"
 readTime: "1 min read"
