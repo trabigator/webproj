@@ -2,11 +2,12 @@ const PostLoader = {
   getPathInfo() {
     const pathname = window.location.pathname;
     const pathParts = pathname.split('/').filter(Boolean);
+    const lastPart = pathParts[pathParts.length - 1];
     
-    const isRoot = pathParts.length === 0 || (pathParts.length === 1 && !pathname.includes('/posts') && !pathname.includes('/search') && !pathname.includes('/about'));
-    const isPostsPage = pathParts.includes('posts') && pathname.endsWith('index.html');
-    const isSearchPage = pathParts.includes('search') && pathname.endsWith('index.html');
-    const isAboutPage = pathParts.includes('about') && pathname.endsWith('index.html');
+    const isRoot = pathParts.length === 0;
+    const isPostsPage = pathParts.includes('posts') && (lastPart === 'index.html' || lastPart === 'posts' || lastPart === '');
+    const isSearchPage = pathParts.includes('search') && (lastPart === 'index.html' || lastPart === 'search' || lastPart === '');
+    const isAboutPage = pathParts.includes('about') && (lastPart === 'index.html' || lastPart === 'about' || lastPart === '');
     
     return { isRoot, isPostsPage, isSearchPage, isAboutPage, pathParts };
   },
