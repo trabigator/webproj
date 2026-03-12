@@ -31,13 +31,14 @@ const PostLoader = {
         console.error('Failed to load manifest.json');
         return [];
       }
-      const files = await response.json();
+      const manifest = await response.json();
       const posts = [];
 
-      for (const file of files) {
-        const post = await this.fetchPost(file.path);
+      for (const item of manifest) {
+        const post = await this.fetchPost(item.path);
         if (post) {
-          post.year = file.year;
+          post.year = item.year;
+          post.slug = item.slug;
           posts.push(post);
         }
       }
@@ -50,7 +51,7 @@ const PostLoader = {
     }
   },
 
-  async fetchPost(path) {
+  async fetchPost(path, slugFromManifest) {
     try {
       const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
       const isSubDir = isSearchPage || isAboutPage;
@@ -68,20 +69,20 @@ const PostLoader = {
       if (!response.ok) return null;
 
       const content = await response.text();
-      return this.parsePost(content, path);
+      return this.parsePost(content, path, slugFromManifest);
     } catch (e) {
       console.error(`Failed to load post: ${path}`, e);
       return null;
     }
   },
 
-  parsePost(content, path) {
+  parsePost(content, path, slugFromManifest) {
     const fmMatch = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
     if (!fmMatch) return null;
 
     const frontmatter = this.parseFrontmatter(fmMatch[1]);
     const markdown = fmMatch[2];
-    const slug = path.split('/').pop().replace('.md', '');
+    const slug = slugFromManifest || path.split('/').pop().replace('.md', '');
 
     return {
       slug,
@@ -232,7 +233,27 @@ const PostLoader = {
     
     if (!year || !slug) return null;
 
-    const post = await this.fetchPost(`${year}/${slug}.md`);
+    const { isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
+    const isSubDir = isSearchPage || isAboutPage;
+    
+    let manifestPath;
+    if (isPostsPage) {
+      manifestPath = 'manifest.json';
+    } else if (isSubDir) {
+      manifestPath = '../posts/manifest.json';
+    } else {
+      manifestPath = 'posts/manifest.json';
+    }
+
+    const response = await fetch(manifestPath);
+    if (!response.ok) return null;
+    
+    const manifest = await response.json();
+    const item = manifest.find(m => m.year === year && m.slug === slug);
+    
+    if (!item) return null;
+
+    const post = await this.fetchPost(item.path, item.slug);
     if (!post) return null;
 
     document.title = post.headline;

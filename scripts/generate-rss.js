@@ -5,7 +5,7 @@ const POSTS_DIR = path.join(__dirname, '..', 'posts');
 const MANIFEST_PATH = path.join(POSTS_DIR, 'manifest.json');
 const RSS_PATH = path.join(__dirname, '..', 'rss.xml');
 
-const SITE_URL = 'https://trabigator.github.io/webproj/';
+const SITE_URL = 'https://trabigator.github.io/webproj';
 const SITE_TITLE = 'MD';
 const SITE_DESCRIPTION = 'MD - Developer, Designer, Creator';
 
@@ -46,7 +46,7 @@ function generateRss() {
       title: fm.headline || 'Untitled',
       date: fm.date || item.slug,
       datetime: fm.datetime || `${item.slug}T00:00:00Z`,
-      link: `${SITE_URL}/posts/post.html?year=${item.year}&slug=${item.slug}`,
+      link: `${SITE_URL}/posts/${item.year}/${item.slug}`,
       description: fm.teaser || ''
     });
   }
@@ -55,12 +55,13 @@ function generateRss() {
 
   const now = new Date().toUTCString();
   const items = posts.map(post => {
+    const link = escapeXml(post.link);
     return `    <item>
       <title>${escapeXml(post.title)}</title>
-      <link>${post.link}</link>
-      <guid>${post.link}</guid>
-      <pubDate>${new Date(post.datetime).toUTCString()}</pubDate>
+      <link>${link}</link>
+      <guid isPermaLink="true">${link}</guid>
       <description><![CDATA[${post.description}]]></description>
+      <pubDate>${new Date(post.datetime).toUTCString()}</pubDate>
     </item>`;
   }).join('\n');
 
