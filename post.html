@@ -88,12 +88,21 @@
                 </div>
             </header>
             <div id="post-body" class="markdown-content"></div>
-            
-            <div id="post-tags" class="post-tags"></div>
-            
-            <div class="share-section">
-                <span class="share-label">Share this post:</span>
-                <div class="share-buttons">
+        </article>
+        <h2>Stay connected</h2>
+        <section class="newsletter-box">
+            <p>Get notified when I publish new posts. No spam, unsubscribe anytime.</p>
+            <form action="https://buttondown.com/api/emails/embed-subscribe/markusword" method="post" target="_blank" class="newsletter-form">
+                <input type="text" name="name" placeholder="Your Name">
+                <input type="email" name="email" placeholder="Your Email" required>
+                <input type="submit" value="Subscribe">
+            </form>
+            <p class="newsletter-note">2× per month, pure signal, zero fluff.</p>
+        </section>
+        <div id="post-tags" class="post-tags"></div>
+        <div class="share-section">
+            <span class="share-label">Share this post:</span>
+            <div class="share-buttons">
                     <a href="#" class="share-btn" data-platform="x" title="Share on X">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M4 4L20 20"></path>
@@ -142,17 +151,6 @@
                     </a>
                 </div>
             </div>
-        </article>
-        <h2>Stay connected</h2>
-        <section class="newsletter-box">
-            <p>Get notified when I publish new posts. No spam, unsubscribe anytime.</p>
-            <form action="https://buttondown.com/api/emails/embed-subscribe/markusword" method="post" target="_blank" class="newsletter-form">
-                <input type="text" name="name" placeholder="Your Name">
-                <input type="email" name="email" placeholder="Your Email" required>
-                <input type="submit" value="Subscribe">
-            </form>
-            <p class="newsletter-note">2× per month, pure signal, zero fluff.</p>
-        </section>
         <div class="post-nav-row">
             <a href="javascript:history.back()" class="back-link">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -223,7 +221,7 @@
                 if (post.tags && post.tags.length > 0) {
                     const tagsContainer = document.getElementById('post-tags');
                     tagsContainer.innerHTML = post.tags.map(tag => 
-                        `<a href="../tags/${encodeURIComponent(tag)}" class="tag">${tag}</a>`
+                        `<a href="../tags/${encodeURIComponent(tag)}" class="tag">#${tag}</a>`
                     ).join('');
                 }
                 
