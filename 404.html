@@ -17,7 +17,7 @@
                 if (partsIndex !== -1 && parts.length >= partsIndex + 3) {
                     var year = parts[partsIndex + 1];
                     var slug = parts[partsIndex + 3];
-                    var basePath = postIndex > 0 ? path.substring(0, postIndex) : '.';
+                    var basePath = postIndex > 0 ? path.substring(0, postIndex) : '';
                     var redirectUrl = basePath + '/post.html?year=' + encodeURIComponent(year) + '&slug=' + encodeURIComponent(slug);
                     window.location.href = redirectUrl;
                     return;
@@ -30,14 +30,14 @@
                 
                 if (partsIndex !== -1 && parts[partsIndex + 1] && parts[partsIndex + 1] !== 'index.html') {
                     var tag = parts[partsIndex + 1];
-                    var basePath = tagsIndex > 0 ? path.substring(0, tagsIndex) : '.';
+                    var basePath = tagsIndex > 0 ? path.substring(0, tagsIndex) : '';
                     var redirectUrl = basePath + '/tags/index.html?tag=' + encodeURIComponent(tag);
                     window.location.href = redirectUrl;
                     return;
                 }
             }
             
-            window.location.href = './';
+            window.location.href = '/';
         })();
     </script>
 </head>

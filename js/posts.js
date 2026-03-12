@@ -8,14 +8,15 @@ const PostLoader = {
     const isPostsPage = pathParts.includes('posts') && (lastPart === 'index.html' || lastPart === 'posts' || lastPart === '');
     const isSearchPage = pathParts.includes('search') && (lastPart === 'index.html' || lastPart === 'search' || lastPart === '');
     const isAboutPage = pathParts.includes('about') && (lastPart === 'index.html' || lastPart === 'about' || lastPart === '');
+    const isTagsPage = pathParts.includes('tags') && (lastPart === 'index.html' || lastPart === 'tags' || lastPart === '');
     
-    return { isRoot, isPostsPage, isSearchPage, isAboutPage, pathParts };
+    return { isRoot, isPostsPage, isSearchPage, isAboutPage, isTagsPage, pathParts };
   },
 
   async fetchPosts() {
     try {
-      const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
-      const isSubDir = isSearchPage || isAboutPage;
+      const { isRoot, isPostsPage, isSearchPage, isAboutPage, isTagsPage } = this.getPathInfo();
+      const isSubDir = isSearchPage || isAboutPage || isTagsPage;
       
       let manifestPath;
       if (isPostsPage) {
@@ -54,8 +55,8 @@ const PostLoader = {
 
   async fetchPost(path, slugFromManifest) {
     try {
-      const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
-      const isSubDir = isSearchPage || isAboutPage;
+      const { isRoot, isPostsPage, isSearchPage, isAboutPage, isTagsPage } = this.getPathInfo();
+      const isSubDir = isSearchPage || isAboutPage || isTagsPage;
       
       let fullPath;
       if (isPostsPage) {
@@ -145,8 +146,8 @@ const PostLoader = {
       return;
     }
 
-    const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
-    const isSubDir = isPostsPage || isSearchPage || isAboutPage;
+    const { isRoot, isPostsPage, isSearchPage, isAboutPage, isTagsPage } = this.getPathInfo();
+    const isSubDir = isPostsPage || isSearchPage || isAboutPage || isTagsPage;
 
       container.innerHTML = posts.map(post => `
         <li>
@@ -178,8 +179,8 @@ const PostLoader = {
       return;
     }
 
-    const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
-    const isSubDir = isPostsPage || isSearchPage || isAboutPage;
+    const { isRoot, isPostsPage, isSearchPage, isAboutPage, isTagsPage } = this.getPathInfo();
+    const isSubDir = isPostsPage || isSearchPage || isAboutPage || isTagsPage;
 
     const grouped = this.groupPostsByYearMonth(posts);
     const sortedYears = Object.entries(grouped).sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
@@ -275,8 +276,8 @@ const PostLoader = {
     
     if (!year || !slug) return null;
 
-    const { isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
-    const isSubDir = isSearchPage || isAboutPage;
+    const { isPostsPage, isSearchPage, isAboutPage, isTagsPage } = this.getPathInfo();
+    const isSubDir = isSearchPage || isAboutPage || isTagsPage;
     
     let manifestPath;
     if (isPostsPage) {

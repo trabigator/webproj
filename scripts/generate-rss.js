@@ -5,7 +5,7 @@ const POSTS_DIR = path.join(__dirname, '..', 'posts');
 const MANIFEST_PATH = path.join(POSTS_DIR, 'manifest.json');
 const RSS_PATH = path.join(__dirname, '..', 'rss.xml');
 
-const SITE_URL = 'https://trabigator.github.io/webproj';
+const SITE_URL = 'https://www.markusword.de';
 const SITE_TITLE = 'MD';
 const SITE_DESCRIPTION = 'MD - Developer, Designer, Creator';
 
