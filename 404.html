@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading... | MD</title>
+    <script>
+        (function() {
+            var path = window.location.pathname;
+            var postIndex = path.indexOf('/post/');
+            var basePath = postIndex !== -1 ? path.substring(0, postIndex) : '.';
+            
+            if (postIndex !== -1) {
+                var parts = path.split('/').filter(Boolean);
+                var partsIndex = parts.indexOf('post');
+                
+                if (partsIndex !== -1 && parts.length >= partsIndex + 3) {
+                    var year = parts[partsIndex + 1];
+                    var slug = parts[partsIndex + 3];
+                    var redirectUrl = basePath + '/post.html?year=' + encodeURIComponent(year) + '&slug=' + encodeURIComponent(slug);
+                    window.location.href = redirectUrl;
+                    return;
+                }
+            }
+            window.location.href = basePath + '/';
+        })();
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
