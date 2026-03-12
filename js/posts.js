@@ -236,21 +236,17 @@ const PostLoader = {
     
     let year, month, slug;
     
-    const isPostPage = pathParts.includes('post');
-    if (isPostPage) {
-      const postIndex = pathParts.indexOf('post');
+    const postIndex = pathParts.indexOf('post');
+    if (postIndex !== -1 && pathParts.length >= postIndex + 3) {
       year = pathParts[postIndex + 1];
       month = pathParts[postIndex + 2];
       slug = pathParts[postIndex + 3];
-    } else {
+    }
+    
+    if (!year || !slug) {
       const params = new URLSearchParams(window.location.search);
       year = params.get('year');
-      const slugParam = params.get('slug');
-      if (slugParam) {
-        const slugParts = slugParam.split('-');
-        month = slugParts[0] === '20' && slugParts[1] ? slugParts[1] : '01';
-        slug = slugParam;
-      }
+      slug = params.get('slug');
     }
     
     if (!year || !slug) return null;

@@ -1,2 +1,1 @@
-/post/:year/:month/:slug /post.html?year=:year&slug=:slug 200
-
+/post/* /post.html 200
