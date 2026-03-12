@@ -31,6 +31,25 @@ function generateSlug(headline, filename) {
   return filename.replace('.md', '');
 }
 
+function getMonthFromDate(dateStr) {
+  if (!dateStr) return '01';
+  const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return match ? match[2] : '01';
+}
+
+function makeSlugsUnique(posts) {
+  const slugCount = {};
+  for (const post of posts) {
+    if (slugCount[post.slug]) {
+      slugCount[post.slug]++;
+      post.slug = `${post.slug}-${slugCount[post.slug]}`;
+    } else {
+      slugCount[post.slug] = 1;
+    }
+  }
+  return posts;
+}
+
 function generateManifest() {
   const years = fs.readdirSync(POSTS_DIR).filter(item => {
     return fs.statSync(path.join(POSTS_DIR, item)).isDirectory();
@@ -48,15 +67,18 @@ function generateManifest() {
       const fm = parseFrontmatter(content);
       
       const slug = fm.slug || generateSlug(fm.headline, file);
+      const month = getMonthFromDate(fm.date);
       
       posts.push({
         slug,
         year,
+        month,
         path: `${year}/${file}`
       });
     }
   }
 
+  makeSlugsUnique(posts);
   posts.sort((a, b) => b.slug.localeCompare(a.slug));
 
   fs.writeFileSync(MANIFEST_PATH, JSON.stringify(posts, null, 2) + '\n');

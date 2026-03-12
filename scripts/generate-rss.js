@@ -46,7 +46,7 @@ function generateRss() {
       title: fm.headline || 'Untitled',
       date: fm.date || item.slug,
       datetime: fm.datetime || `${item.slug}T00:00:00Z`,
-      link: `${SITE_URL}/posts/${item.year}/${item.slug}`,
+      link: `${SITE_URL}/post/${item.year}/${item.month}/${item.slug}`,
       description: fm.teaser || ''
     });
   }

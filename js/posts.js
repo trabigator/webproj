@@ -38,6 +38,7 @@ const PostLoader = {
         const post = await this.fetchPost(item.path);
         if (post) {
           post.year = item.year;
+          post.month = item.month;
           post.slug = item.slug;
           posts.push(post);
         }
@@ -109,6 +110,11 @@ const PostLoader = {
     return fm;
   },
 
+  getPostUrl(post, isSubDir) {
+    const base = isSubDir ? '..' : '.';
+    return `${base}/post/${post.year}/${post.month}/${post.slug}`;
+  },
+
   renderPostList(posts, container) {
     if (!posts.length) {
       container.innerHTML = '<p>No posts yet.</p>';
@@ -117,12 +123,11 @@ const PostLoader = {
 
     const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
     const isSubDir = isPostsPage || isSearchPage || isAboutPage;
-    const postBase = isSubDir ? '../post.html' : 'post.html';
 
       container.innerHTML = posts.map(post => `
         <li>
           <div class="post-item">
-            <a href="${postBase}?year=${post.year}&slug=${post.slug}" class="post-link">
+            <a href="${this.getPostUrl(post, isSubDir)}" class="post-link">
             <h3>${post.headline}</h3>
           </a>
           <div class="post-meta">
@@ -151,7 +156,6 @@ const PostLoader = {
 
     const { isRoot, isPostsPage, isSearchPage, isAboutPage } = this.getPathInfo();
     const isSubDir = isPostsPage || isSearchPage || isAboutPage;
-    const postBase = isSubDir ? '../post.html' : 'post.html';
 
     const grouped = this.groupPostsByYearMonth(posts);
     const sortedYears = Object.entries(grouped).sort((a, b) => parseInt(b[0]) - parseInt(a[0]));
@@ -169,7 +173,7 @@ const PostLoader = {
         
         for (const post of monthData.posts) {
           html += `<li>
-            <a href="${postBase}?year=${post.year}&slug=${post.slug}" class="post-link">
+            <a href="${this.getPostUrl(post, isSubDir)}" class="post-link">
               <h3>${post.headline}</h3>
             </a>
             <div class="post-meta">
@@ -227,9 +231,27 @@ const PostLoader = {
   },
 
   async loadPostPage() {
-    const params = new URLSearchParams(window.location.search);
-    const year = params.get('year');
-    const slug = params.get('slug');
+    const pathname = window.location.pathname;
+    const pathParts = pathname.split('/').filter(Boolean);
+    
+    let year, month, slug;
+    
+    const isPostPage = pathParts.includes('post');
+    if (isPostPage) {
+      const postIndex = pathParts.indexOf('post');
+      year = pathParts[postIndex + 1];
+      month = pathParts[postIndex + 2];
+      slug = pathParts[postIndex + 3];
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      year = params.get('year');
+      const slugParam = params.get('slug');
+      if (slugParam) {
+        const slugParts = slugParam.split('-');
+        month = slugParts[0] === '20' && slugParts[1] ? slugParts[1] : '01';
+        slug = slugParam;
+      }
+    }
     
     if (!year || !slug) return null;
 
