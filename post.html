@@ -153,8 +153,8 @@
             </form>
             <p class="newsletter-note">2× per month, pure signal, zero fluff.</p>
         </section>
-        <div class="all-posts-link">
-            <a href="javascript:history.back()">
+        <div class="post-nav-row">
+            <a href="javascript:history.back()" class="back-link">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5"></path>
                     <path d="M11 6L5 12"></path>
@@ -162,7 +162,7 @@
                 </svg>
                 Back
             </a>
-            <nav class="post-navigation"></nav>
+            <div class="post-nav-links"></div>
         </div>
     </main>
 
@@ -261,13 +261,13 @@
         }
 
         function setupPostNavigation(post) {
-            const navContainer = document.querySelector('.post-navigation');
+            const navContainer = document.querySelector('.post-nav-links');
             let navHtml = '';
             
             if (post.prevPost) {
                 const prevTitle = post.prevPost.headline.substring(0, 25);
                 const prevTeaser = post.prevPost.teaser || '';
-                navHtml += `<a href="/post/${post.prevPost.year}/${post.prevPost.month}/${post.prevPost.slug}" class="post-nav-link post-nav-prev" title="${post.prevPost.headline}" aria-label="${prevTeaser}">
+                navHtml += `<a href="/post/${post.prevPost.year}/${post.prevPost.month}/${post.prevPost.slug}" class="post-nav-link" title="${post.prevPost.headline}" aria-label="${prevTeaser}">
                     <span class="post-nav-label">Previous Post</span>
                     <span class="post-nav-title">${prevTitle}</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
@@ -277,7 +277,7 @@
             if (post.nextPost) {
                 const nextTitle = post.nextPost.headline.substring(0, 25);
                 const nextTeaser = post.nextPost.teaser || '';
-                navHtml += `<a href="/post/${post.nextPost.year}/${post.nextPost.month}/${post.nextPost.slug}" class="post-nav-link post-nav-next" title="${post.nextPost.headline}" aria-label="${nextTeaser}">
+                navHtml += `<a href="/post/${post.nextPost.year}/${post.nextPost.month}/${post.nextPost.slug}" class="post-nav-link" title="${post.nextPost.headline}" aria-label="${nextTeaser}">
                     <span class="post-nav-label">Next Post</span>
                     <span class="post-nav-title">${nextTitle}</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
@@ -285,7 +285,7 @@
             }
             
             if (navHtml) {
-                navContainer.innerHTML = `<div class="post-nav-container">${navHtml}</div>`;
+                navContainer.innerHTML = navHtml;
             }
         }
     </script>
