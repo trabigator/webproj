@@ -8,7 +8,7 @@
         (function() {
             var path = window.location.pathname;
             var postIndex = path.indexOf('/post/');
-            var basePath = postIndex !== -1 ? path.substring(0, postIndex) : '.';
+            var tagsIndex = path.indexOf('/tags/');
             
             if (postIndex !== -1) {
                 var parts = path.split('/').filter(Boolean);
@@ -17,12 +17,27 @@
                 if (partsIndex !== -1 && parts.length >= partsIndex + 3) {
                     var year = parts[partsIndex + 1];
                     var slug = parts[partsIndex + 3];
+                    var basePath = postIndex > 0 ? path.substring(0, postIndex) : '.';
                     var redirectUrl = basePath + '/post.html?year=' + encodeURIComponent(year) + '&slug=' + encodeURIComponent(slug);
                     window.location.href = redirectUrl;
                     return;
                 }
             }
-            window.location.href = basePath + '/';
+            
+            if (tagsIndex !== -1) {
+                var parts = path.split('/').filter(Boolean);
+                var partsIndex = parts.indexOf('tags');
+                
+                if (partsIndex !== -1 && parts[partsIndex + 1] && parts[partsIndex + 1] !== 'index.html') {
+                    var tag = parts[partsIndex + 1];
+                    var basePath = tagsIndex > 0 ? path.substring(0, tagsIndex) : '.';
+                    var redirectUrl = basePath + '/tags/index.html?tag=' + encodeURIComponent(tag);
+                    window.location.href = redirectUrl;
+                    return;
+                }
+            }
+            
+            window.location.href = './';
         })();
     </script>
 </head>
