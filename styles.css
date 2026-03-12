@@ -77,7 +77,7 @@ button {
 }
 
 #nav-container {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 0 16px;
 }
@@ -219,14 +219,14 @@ button {
 }
 
 .divider {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     border: 0;
     border-top: 1px solid var(--border);
 }
 
 main {
-    max-width: 960px;
+    max-width: 860px;
     width: 100%;
     margin: 0 auto;
     padding: 0 16px;
@@ -457,7 +457,7 @@ h1 {
 
 footer {
     width: 100%;
-    max-width: 960px;
+    max-width: 860px;
     margin: auto auto 0;
 }
 
@@ -607,7 +607,7 @@ footer {
 }
 
 .page-content {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 0rem;
 }
@@ -622,7 +622,7 @@ footer {
 }
 
 .search-page {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 0rem;
 }
@@ -665,7 +665,7 @@ footer {
 }
 
 #all-posts {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 0rem;
 }
@@ -908,7 +908,7 @@ footer {
 }
 
 .tags-page {
-    max-width: 960px;
+    max-width: 860px;
     margin: 0 auto;
     padding: 2rem 0rem;
 }
