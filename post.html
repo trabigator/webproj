@@ -227,7 +227,7 @@
         });
 
         function setupShareButtons(post) {
-            const baseUrl = window.location.origin;
+            const baseUrl = PostLoader.getBaseUrl();
             const postUrl = `${baseUrl}/post/${post.year}/${post.month}/${post.slug}`;
             const shareText = `${post.headline}`;
             

@@ -124,7 +124,9 @@ const PostLoader = {
   },
 
   getBaseUrl() {
-    return window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
+    const pathname = window.location.pathname;
+    const basePath = pathname.replace(/\/[^/]*$/, '');
+    return window.location.origin + (basePath || '');
   },
 
   async getAdjacentPosts(year, slug) {
