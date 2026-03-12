@@ -148,6 +148,7 @@ stroke-linecap="round" stroke-linejoin="round">
 </a>
             </div>
             <div class="footer-credit">
+                <a href="../imprint.html">Imprint</a>
                 <span>Built with care</span>
             </div>
         </div>
@@ -203,6 +204,7 @@ stroke-linecap="round" stroke-linejoin="round">
                     (post.teaser && post.teaser.toLowerCase().includes(q)) ||
                     (post.content && post.content.toLowerCase().includes(q)) ||
                     post.date.toLowerCase().includes(q) ||
+                    (post.tags && post.tags.some(tag => tag.toLowerCase().includes(q))) ||
                     (qYear && post.year === qYear[1])
                 );
             }
@@ -215,5 +217,11 @@ stroke-linecap="round" stroke-linejoin="round">
             renderResults([]);
         });
     </script>
+    
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
 </body>
 </html>

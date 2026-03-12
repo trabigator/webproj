@@ -92,6 +92,7 @@ const PostLoader = {
       datetime: frontmatter.datetime || '',
       readTime: frontmatter.readTime || '5 min read',
       teaser: frontmatter.teaser || '',
+      tags: frontmatter.tags || [],
       content: marked.parse(markdown),
       path
     };
@@ -104,7 +105,14 @@ const PostLoader = {
     for (const line of lines) {
       const match = line.match(/^(\w+):\s*(.*)$/);
       if (match) {
-        fm[match[1]] = match[2].replace(/^["']|["']$/g, '');
+        const key = match[1];
+        let value = match[2].replace(/^["']|["']$/g, '');
+        
+        if (value.startsWith('[') && value.endsWith(']')) {
+          value = value.slice(1, -1).split(',').map(v => v.trim().replace(/^["']|["']$/g, ''));
+        }
+        
+        fm[key] = value;
       }
     }
     return fm;
@@ -113,6 +121,20 @@ const PostLoader = {
   getPostUrl(post, isSubDir) {
     const base = isSubDir ? '..' : '.';
     return `${base}/post/${post.year}/${post.month}/${post.slug}`;
+  },
+
+  getBaseUrl() {
+    return window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
+  },
+
+  async getAdjacentPosts(year, slug) {
+    const posts = await this.fetchPosts();
+    const currentIndex = posts.findIndex(p => p.year === year && p.slug === slug);
+    
+    const prev = currentIndex > 0 ? posts[currentIndex - 1] : null;
+    const next = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+    
+    return { prev, next };
   },
 
   renderPostList(posts, container) {
@@ -273,6 +295,10 @@ const PostLoader = {
 
     const post = await this.fetchPost(item.path, item.slug);
     if (!post) return null;
+
+    const adjacent = await this.getAdjacentPosts(year, slug);
+    post.prevPost = adjacent.prev;
+    post.nextPost = adjacent.next;
 
     document.title = post.headline;
     return post;
