@@ -265,8 +265,10 @@
                 const nextTitle = post.nextPost.headline.substring(0, 25);
                 const nextTeaser = post.nextPost.teaser || '';
                 navHtml += `<a href="/post/${post.nextPost.year}/${post.nextPost.month}/${post.nextPost.slug}" class="post-nav-link" title="${post.nextPost.headline}" aria-label="${nextTeaser}">
+                    <div>
                     <span class="post-nav-label">Next Post</span>
                     <span class="post-nav-title">${nextTitle}</span>
+                    </div>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </a>`;
             }
