@@ -843,7 +843,7 @@ footer {
 
 .post-nav-link {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     padding: 8px 12px;
     border-radius: 6px;
@@ -857,6 +857,7 @@ footer {
 
 .post-nav-link svg {
     flex-shrink: 0;
+    margin-top: 4px;
 }
 
 .post-nav-label {
@@ -865,6 +866,7 @@ footer {
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-align: right;
 }
 
 .post-nav-link:hover .post-nav-label {
@@ -879,6 +881,7 @@ footer {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 200px;
+    text-align: right;
 }
 
 .back-to-top {
